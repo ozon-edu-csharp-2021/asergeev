@@ -14,4 +14,4 @@ services:
     image: 'ghcr.io/ozon-edu-csharp-2021/supply-service:main'
 
   merchandise-service:
-    build: ./merchandise-service
+    build: .
