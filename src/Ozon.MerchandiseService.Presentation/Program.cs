@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Ozon.MerchandiseService.Presentation;
 
-namespace merchandise_service
+namespace Ozon.MerchandiseService.Presentation
 {
     public class Program
     {
