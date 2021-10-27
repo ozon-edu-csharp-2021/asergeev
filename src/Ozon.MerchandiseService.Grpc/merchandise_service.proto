@@ -1,0 +1,31 @@
+syntax="proto3";
+option csharp_namespace = "Ozon.MerchandiseService.Grpc";
+package MarchandiseService;
+
+service MerchandiseServiceGrpc {
+  rpc GetMerch(GetMerchRequest) returns (GetMerchResponse);
+  rpc GetInfoAboutMerch(GetInfoAboutMerchRequest) returns (GetInfoAboutMerchResponse);
+}
+
+message GetMerchRequest{
+    string merch_type = 1;
+}
+
+message GetMerchResponse{
+    GetMerchResponseUnit merch = 1;
+}
+
+message GetMerchResponseUnit{
+  string item_type = 1;
+}
+
+message GetInfoAboutMerchRequest{
+}
+
+message GetInfoAboutMerchResponse{
+  GetInfoAboutMerchResponseUnit merch_info = 1;
+}
+
+message GetInfoAboutMerchResponseUnit{
+  
+}

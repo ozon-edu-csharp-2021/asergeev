@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Ozon.MerchandiseService.HttpClient</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Ozon.MerchandiseService.HttpModels\Ozon.MerchandiseService.HttpModels.csproj" />
+      <ProjectReference Include="..\Ozon.MerchandiseService.Presentation\Ozon.MerchandiseService.Presentation.csproj" />
+    </ItemGroup>
+
+</Project>
