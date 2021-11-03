@@ -10,8 +10,8 @@ namespace Ozon.MerchandiseService.HttpClients
 {
     interface IMerchHttpClient
     {
-        Task<MerchInfoResponse> GetInfoAboutMerch(MerchTypeModel model, CancellationToken token);
-        Task<MerchItem> RequestMerch(MerchTypeModel modelRequest, CancellationToken token);
+        Task<MerchInfoResponse> GetInfoAboutMerch(EmployeeModel model, CancellationToken token);
+        Task<MerchItem> RequestMerch(EmployeeModel model, CancellationToken token);
     }
     public class MerchandiseHttpClient: IMerchHttpClient
     {
@@ -22,16 +22,16 @@ namespace Ozon.MerchandiseService.HttpClients
             _client = client;
         }
 
-        public async Task<MerchInfoResponse> GetInfoAboutMerch(MerchTypeModel model, CancellationToken token)
+        public async Task<MerchInfoResponse> GetInfoAboutMerch(EmployeeModel model, CancellationToken token)
         {
             var response = await _client.GetAsync("v1/api/merch",token);
             var body = await response.Content.ReadAsStringAsync(token);
             return JsonSerializer.Deserialize<MerchInfoResponse>(body);
         }
         
-        public async Task<MerchItem> RequestMerch(MerchTypeModel modelRequest, CancellationToken token)
+        public async Task<MerchItem> RequestMerch(EmployeeModel model, CancellationToken token)
         {
-            var response = await _client.PostAsJsonAsync("v1/api/merch", modelRequest, token);
+            var response = await _client.PostAsJsonAsync("v1/api/merch", model, token);
             var body = await response.Content.ReadAsStringAsync(token);
             return JsonSerializer.Deserialize<MerchItem>(body);
         }

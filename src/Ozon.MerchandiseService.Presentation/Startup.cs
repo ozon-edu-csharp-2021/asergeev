@@ -12,6 +12,8 @@ namespace Ozon.MerchandiseService.Presentation
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IMerchService, MerchService>();
+            services.AddInfrastructureServices();
+            
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

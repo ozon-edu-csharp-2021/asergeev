@@ -9,18 +9,18 @@ namespace Ozon.MerchandiseService.Presentation.Services
 {
     public interface IMerchService
     {
-       Task<MerchItem> RequestMerch(MerchTypeModel model, CancellationToken token);
-       Task<MerchInfo> GetInfoAboutMerch(MerchTypeModel model, CancellationToken token);
+       Task<MerchItem> RequestMerch(EmployeeModel model, CancellationToken token);
+       Task<MerchInfo> GetInfoAboutMerch(long idEmployee, CancellationToken token);
     }
 
     public class MerchService : IMerchService
     {
-        public Task<MerchItem> RequestMerch(MerchTypeModel model, CancellationToken _)
+        public Task<MerchItem> RequestMerch(EmployeeModel model, CancellationToken _)
         {
-            return Task.FromResult( new MerchItem(model.ItemType));
+            throw new System.NotImplementedException();
         }
 
-        public Task<MerchInfo> GetInfoAboutMerch(MerchTypeModel model, CancellationToken token)
+        public Task<MerchInfo> GetInfoAboutMerch(long idEmployee, CancellationToken token)
         {
             throw new System.NotImplementedException();
         }
