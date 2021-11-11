@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Ozon.MerchandiseService.Infrastucture.Commands;
+using Ozon.MerchandiseService.Infrastucture.Queries;
 using Ozon.MerchandiseService.Presentation.Models;
 using Ozon.MerchandiseService.Presentation.Services;
 
@@ -13,24 +15,49 @@ namespace Ozon.MerchandiseService.Presentation.Controllers
     public class MerchController: ControllerBase
     {
         private readonly IMerchService _merchService;
+        private readonly IMediator _mediator;
 
-        public MerchController(IMerchService merchService)
+        public MerchController(IMerchService merchService, IMediator mediator)
         {
             _merchService = merchService;
+            _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<MerchInfo>> GetInfoAboutMerch(MerchTypeModel model, CancellationToken token)
+        [HttpGet("info/{employeeId:long}")]
+        public async Task<ActionResult<MerchInfo>> GetInfoAboutMerch(long id, CancellationToken token)
         {
-            var info = await _merchService.GetInfoAboutMerch(model, token);
-            return Ok(info);
+            var getInfoAboutMerchQuery = new GetInfoAboutMerchQuery()
+            {
+                IdEmployee = id
+            };
+            var info = await _mediator.Send(getInfoAboutMerchQuery, token);
+            
+            var merchInfo = new MerchInfo(info.IssueStatus.WasIssued,
+                info.MerchRankType.Name, 
+                info.IssuanceDate.Value);
+            
+            return Ok(merchInfo);
         }
         
         [HttpPost]
-        public async Task<ActionResult<MerchItem>> RequestMerch(MerchTypeModel model, CancellationToken token)
-        {       
-            var merchItem = await _merchService.RequestMerch(model, token);
-             return Ok(merchItem);
+        public async Task<ActionResult<List<MerchItem>>> RequestMerch(EmployeeModel employeeModel, CancellationToken token)
+        {
+            var requestMerchCommand = new RequestMerchCommand()
+            {
+                Email = employeeModel.Email,
+                MerchRank = employeeModel.MerchRank
+            };
+            var merchSet = await _mediator.Send(requestMerchCommand, token);
+            List<MerchItem> merchList = new List<MerchItem>();
+            
+            foreach (var merch in merchSet.Set)
+            {
+                merchList.Add(new MerchItem(
+                    merch.Id.Value, merch.MerchName.Value, 
+                    merch.ClothingSize.Name, merch.Item.ItemType.Name 
+                    ));
+            }
+            return Ok(merchList);
         }
     }
 }
